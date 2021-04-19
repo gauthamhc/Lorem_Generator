@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import data from "./data";
 
 function App() {
+  const [count, setCount] = useState(0);
+  const [paras, setParas] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let amount = parseInt(count);
+    if (count <= 0) {
+      setParas(data.slice(0, 1));
+    } else {
+      setParas(data.slice(0, amount));
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <section className="section-center">
+      <header>
+        <h2>Lorem Builder</h2>
       </header>
-    </div>
+      <form type="submit" onSubmit={handleSubmit}>
+        <label>paragraphs required</label>
+        <input
+          type="number"
+          onChange={(e) => setCount(e.target.value)}
+          value={count}
+        />
+        <button>generate</button>
+      </form>
+      <article>
+        {paras.map((para, index) => {
+          return <p key={index}>{para}</p>;
+        })}
+      </article>
+    </section>
   );
 }
 
